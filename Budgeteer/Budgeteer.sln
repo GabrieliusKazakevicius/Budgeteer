@@ -1,12 +1,10 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{85227930-2C1C-46F7-8503-3E1859677005}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{7F684838-DEA7-4D01-945B-5BF0F41C4C28}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Budgeteer.Application", "Budgeteer.Application\Budgeteer.Application.csproj", "{F5927874-CE7C-43D2-99B2-7596C5D62E12}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Budgeteer.Web", "Budgeteer.Web\Budgeteer.Web.csproj", "{FF2EC4A9-87D6-4C9B-BAF6-902D5CE37A98}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Budgeteer.Api", "Budgeteer.Api\Budgeteer.Api.csproj", "{DC7C9574-E18C-43AB-A905-E0E48D0D004F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -22,9 +20,11 @@ Global
 		{FF2EC4A9-87D6-4C9B-BAF6-902D5CE37A98}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FF2EC4A9-87D6-4C9B-BAF6-902D5CE37A98}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FF2EC4A9-87D6-4C9B-BAF6-902D5CE37A98}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DC7C9574-E18C-43AB-A905-E0E48D0D004F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC7C9574-E18C-43AB-A905-E0E48D0D004F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DC7C9574-E18C-43AB-A905-E0E48D0D004F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DC7C9574-E18C-43AB-A905-E0E48D0D004F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{F5927874-CE7C-43D2-99B2-7596C5D62E12} = {7F684838-DEA7-4D01-945B-5BF0F41C4C28}
-		{FF2EC4A9-87D6-4C9B-BAF6-902D5CE37A98} = {85227930-2C1C-46F7-8503-3E1859677005}
 	EndGlobalSection
 EndGlobal
