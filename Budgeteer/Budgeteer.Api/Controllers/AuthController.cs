@@ -1,6 +1,5 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using Budgeteer.Application.Domain;
-using BudgetUs.Api.Auth;
 using BudgetUs.Api.Models;
 using BudgetUs.Api.Models.Auth;
 using Microsoft.AspNetCore.Identity;

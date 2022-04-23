@@ -5,7 +5,7 @@ using System.Text;
 using Budgeteer.Application.Domain;
 using Microsoft.IdentityModel.Tokens;
 
-namespace BudgetUs.Api.Auth
+namespace Budgeteer.Api
 {
     public class TokenService
     {

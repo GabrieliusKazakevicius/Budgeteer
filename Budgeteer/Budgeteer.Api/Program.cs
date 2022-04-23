@@ -1,6 +1,6 @@
+using Budgeteer.Api;
 using Budgeteer.Application.Domain;
 using Budgeteer.Application.Persistance;
-using BudgetUs.Api.Auth;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
