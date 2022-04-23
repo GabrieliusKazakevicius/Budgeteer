@@ -5,9 +5,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
-var configuration = builder.Configuration;
 
-RegisterServices(builder.Services);
+RegisterServices(builder.Services, builder.Configuration);
 
 var app = builder.Build();
 
@@ -23,12 +22,12 @@ app.UseAuthorization();
 app.MapControllers();
 app.Run();
 
-void RegisterServices(IServiceCollection services)
+void RegisterServices(IServiceCollection services, IConfiguration configuration)
 {
     builder.Services.AddControllers();
 
     services.AddScoped<TokenService>();
-    
+
     services.AddDbContext<BudgeteerContext>(options =>
         options.UseSqlServer(
             configuration.GetConnectionString("DefaultConnection"),
