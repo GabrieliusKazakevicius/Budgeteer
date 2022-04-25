@@ -1,13 +1,14 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
+using Budgeteer.Api.Models;
+using Budgeteer.Api.Models.Auth;
 using Budgeteer.Application.Domain;
-using BudgetUs.Api.Models;
-using BudgetUs.Api.Models.Auth;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Budgeteer.Api.Controllers;
 
 [ApiController]
+[Route("auth")]
 public class AuthController : Controller
 {
      private readonly UserManager<User> _userManager;

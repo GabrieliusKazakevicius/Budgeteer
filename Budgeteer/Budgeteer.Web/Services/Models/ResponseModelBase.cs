@@ -1,4 +1,4 @@
-namespace Budgeteer.Api.Models
+namespace Budgeteer.Web.Services.Models
 {
     public class ResponseModelBase
     {

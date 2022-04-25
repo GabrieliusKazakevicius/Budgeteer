@@ -1,6 +1,6 @@
-namespace Budgeteer.Api.Models.Auth
+namespace Budgeteer.Web.Auth.Models
 {
-    public class RefreshViewModel
+    public class TokenRefreshDto
     {
         public string Token { get; set; }
         public string RefreshToken { get; set; }

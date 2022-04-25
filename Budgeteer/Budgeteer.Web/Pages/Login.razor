@@ -1,0 +1,46 @@
+@page "/login"
+@layout UnauthorizedLayout
+
+@using Budgeteer.Web.Auth
+@using Budgeteer.Web.Auth.Models
+@using Microsoft.AspNetCore.Components
+@inject AuthenticationService AuthenticationService
+@attribute [AllowAnonymous]
+
+<div class="container col-6">
+    @if (_loginFailure)
+    {
+        <div class="alert alert-danger">Your credentials did not work. Please try again.</div>
+    }
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Login</h5>
+            <EditForm @ref="LoginForm" Model="_loginDto" OnValidSubmit="SubmitCredentials">
+                <DataAnnotationsValidator />
+
+                <div class="form-group">>
+                    <label>Email address</label>
+                    <InputText class="form-control" @bind-Value="_loginDto.Username" />
+                    <ValidationMessage For="@(()=> _loginDto.Username)" />
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <InputText type="password" class="form-control" @bind-Value="_loginDto.Password" />
+                    <ValidationMessage For="@(()=> _loginDto.Password)" />
+                </div>
+                <button type="submit" class="btn btn-outline-primary btn-sm">Submit</button>
+            </EditForm>
+        </div>
+    </div>
+</div>
+@code {
+    EditForm LoginForm { get; set; }
+    LoginDto _loginDto = new();
+
+    bool _loginFailure;
+
+    async Task SubmitCredentials()
+    {
+        await AuthenticationService.Login(_loginDto.Username, _loginDto.Password);
+    }
+}

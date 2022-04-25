@@ -1,17 +1,24 @@
-﻿@inherits LayoutComponentBase
+﻿@using Budgeteer.Web.Auth
+@inherits LayoutComponentBase
+
+@inject AuthenticationService _authenticationService
 
 <div class="page">
-    <div class="sidebar">
-        <NavMenu/>
+    <NavBar/>
+    <div class="page-content">
+        @Body
     </div>
-
-    <main>
-        <div class="top-row px-4">
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
-        </div>
-
-        <article class="content px-4">
-            @Body
-        </article>
-    </main>
 </div>
+
+@code
+{
+    string _userName;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var user = await _authenticationService.GetActiveUserAsync();
+        
+        if(user is not null)
+            _userName = user.UserName;
+    }
+}
