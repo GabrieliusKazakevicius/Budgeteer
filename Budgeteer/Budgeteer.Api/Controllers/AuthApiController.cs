@@ -2,32 +2,41 @@
 using Budgeteer.Api.Models;
 using Budgeteer.Api.Models.Auth;
 using Budgeteer.Application.Domain;
+using Budgeteer.Application.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Budgeteer.Api.Controllers;
 
-[ApiController]
 [Route("auth")]
-public class AuthController : Controller
+public class AuthApiController : ApiControllerBase
 {
-     private readonly UserManager<User> _userManager;
+        private readonly UserService _userService;
         private readonly TokenService _tokenService;
 
-        public AuthController(UserManager<User> userManager, TokenService tokenService)
+        public AuthApiController(UserService userService, TokenService tokenService)
         {
-            _userManager = userManager;
+            _userService = userService;
             _tokenService = tokenService;
         }
 
         [HttpPost("login")]
         public async Task<ActionResult<LoginResponseViewModel>> Login(LoginViewModel model)
         {
-            var user = await _userManager.FindByNameAsync(model.Username);
-            if (user == null || !await _userManager.CheckPasswordAsync(user, model.Password))
-                return Unauthorized(new LoginResponseViewModel { GeneralErrorMessage = "Invalid Authentication" });
+            var userResult = await _userService.FindByNameAsync(model.Username);
+            if (!userResult)
+            {
+                return userResult.Error switch
+                {
+                    AuthServiceError.NotFound => Unauthorized(userResult.Error, "Invalid Credentials"),
+                    AuthServiceError.InvalidCredentials => Unauthorized(userResult.Error, "Invalid Credentials"),
+                    _ => StatusCode(StatusCodes.Status500InternalServerError)
+                };
+            }
 
-            return Ok(await GenerateResponseModelAsync(user));
+            var passwordCheckResult = await _userService.CheckPasswordAsync(userResult.Result, model.Password);
+            
+            return Ok(await GenerateResponseModelAsync(userResult.Result));
         }
         
         [HttpPost("register")]
@@ -39,7 +48,7 @@ public class AuthController : Controller
                 RefreshToken = _tokenService.GenerateRefreshToken()
             };
             
-            var result = await _userManager.CreateAsync(user, model.Password);
+            var result = await _userService.CreateAsync(user, model.Password);
             if (!result.Succeeded)
                 return BadRequest(GenerateFaultyResponse(result.Errors));
 
@@ -55,7 +64,7 @@ public class AuthController : Controller
             }
             var principal = _tokenService.GetPrincipalFromExpiredToken(model.Token);
             var username = principal.Identity.Name;
-            var user = await _userManager.FindByNameAsync(username);
+            var user = await _userService.FindByNameAsync(username);
             if (user == null || user.RefreshToken != model.RefreshToken)
                 return BadRequest(GenerateFaultyResponse("Invalid client request"));
 
@@ -65,12 +74,12 @@ public class AuthController : Controller
         private async Task<LoginResponseViewModel> GenerateResponseModelAsync(User user)
         {
             var signingCredentials = _tokenService.GetSigningCredentials(); 
-            var claims = await _tokenService.GetClaimsAsync(user, await _userManager.GetRolesAsync(user)); 
+            var claims = await _tokenService.GetClaimsAsync(user, await _userService.GetRolesAsync(user)); 
             var tokenOptions = _tokenService.GenerateTokenOptions(signingCredentials, claims);
             var token = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
             
             user.RefreshToken = _tokenService.GenerateRefreshToken();
-            await _userManager.UpdateAsync(user);
+            await _userService.UpdateAsync(user);
             
             return new LoginResponseViewModel { 
                 Token = token,
@@ -91,6 +100,6 @@ public class AuthController : Controller
         
         private static LoginResponseViewModel GenerateFaultyResponse(string message)
             => new() {
-                GeneralErrorMessage = message
+                ErrorMessage = message
             };
 }

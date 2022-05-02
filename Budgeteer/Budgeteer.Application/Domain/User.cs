@@ -1,12 +1,11 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿namespace Budgeteer.Application.Domain;
 
-namespace Budgeteer.Application.Domain;
-
-public class User : IdentityUser
+public class User
 {
+    public long Id { get; set; }
+    public string UserName { get; set; }
+    public string PasswordHash { get; set; }
     public string RefreshToken { get; set; }
         
     public IList<Account> Accounts { get; set; }
-
-    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 }

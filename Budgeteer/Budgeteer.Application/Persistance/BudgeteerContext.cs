@@ -1,13 +1,12 @@
 ﻿using Budgeteer.Application.Domain;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Budgeteer.Application.Persistance;
 
-public class BudgeteerContext : IdentityDbContext<User>
+public class BudgeteerContext : DbContext
 {
-    public BudgeteerContext(DbContextOptions<BudgeteerContext> options) : base(options)
-    {
-        
-    }
+    public BudgeteerContext(DbContextOptions<BudgeteerContext> options) : base(options) { }
+
+    public DbSet<User> Users { get; set; }
+    public DbSet<Account> Accounts { get; set; }
 }

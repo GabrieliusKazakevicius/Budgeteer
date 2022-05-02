@@ -2,13 +2,7 @@ namespace Budgeteer.Api.Models
 {
     public class ResponseModelBase
     {
-        public string GeneralErrorMessage { get; set; }
-        public List<ErrorModel> Errors { get; set; }
-    }
-    
-    public class ErrorModel
-    {
-        public string Code { get; set; }
-        public string Message { get; set; }
+        public string ErrorMessage { get; set; }
+        public List<string> Errors { get; set; }
     }
 }
